@@ -4,7 +4,7 @@ package robot;
  * Class to represent the grid the robot will use
  * Created by charles on 22/02/17.
  */
-class Grid {
+public class Grid {
 
     private Cell occupancyGrid[][];
 
