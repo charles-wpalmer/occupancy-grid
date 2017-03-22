@@ -1,5 +1,7 @@
 package robot;
 
+import AI.*;
+import PriorityQueue.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -25,6 +27,24 @@ public class Robot {
 
     public void addRobot(double x, double y){
         this.environment.setCell(2, 2, 2);
+    }
+
+    /**
+     * TODO:
+     *  -   instantiate a*, and finish algorithm
+     *
+     */
+    public void navigate() {
+        Grid temp;
+
+        DEPQ frontier = new DEPQ();
+
+        frontier.add(this.environment);
+
+        while(this.environment.isGoal(this.environment)){
+            //Keep calling expand all, and iterating round
+            //and adding to the queue.
+        }
     }
 
     private double[] convertString(String[] data, int size){
@@ -66,7 +86,10 @@ public class Robot {
 
                 this.environment.convertData(dataStruct);
             }
+
             this.environment.print();
+
+            this.navigate();
 
         } catch(IOException e) {
             e.printStackTrace();

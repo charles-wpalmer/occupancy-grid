@@ -4,11 +4,15 @@ package robot;
  * Class to represent the grid the robot will use
  * Created by charles on 22/02/17.
  */
-public class Grid {
+public class Grid implements Comparable<Grid>{
+    private int goalX, goalY, robotX, robotY;
 
     private Cell occupancyGrid[][];
 
     private int GRID_SIZE = 50;
+
+    //Make private
+    public int f, h;
 
     Grid() {
         this.occupancyGrid = new Cell[50][50];
@@ -20,7 +24,16 @@ public class Grid {
             }
         }
     }
-    
+
+    public void setGoalState(int x, int y){
+        this.goalX = x;
+        this.goalY = y;
+    }
+
+    public boolean isGoal(Grid curr){
+        return (curr.goalX == curr.robotX && curr.goalY == curr.robotY);
+    }
+
     public void copyGrid(Grid newG, Grid oldG){
 
         for(int x=0;x<GRID_SIZE;x++){
@@ -31,11 +44,10 @@ public class Grid {
 
     }
 
-    /**
-     * TODO: Finish if next move is legal or not.
-     */
     public boolean legal(int x, int y){
-        return true;
+        return ((x >= 0) && (x < GRID_SIZE) && (y >= 0)
+                && (y < GRID_SIZE)
+                && this.occupancyGrid[x][y].getOccuided());
     }
 
     private double calc_y(double y, double range, double orientation, double sensor) {
@@ -85,6 +97,8 @@ public class Grid {
             Cell cell = new Cell();
             cell.setHasRobot(true);
             this.occupancyGrid[y_cell][x_cell] = cell;
+            this.robotX = x_cell;
+            this.robotY = y_cell;
         }
     }
 
@@ -105,6 +119,17 @@ public class Grid {
             }
             System.out.println();
         }
+    }
+
+    @Override
+    public int compareTo(Grid o) {
+        if(f == o.f)
+            return 0;
+        else if(f > o.f)
+            return 1;
+        else
+            return -1;
+
     }
 }
 

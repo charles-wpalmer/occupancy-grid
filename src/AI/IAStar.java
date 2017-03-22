@@ -1,3 +1,5 @@
+package AI;
+
 import robot.*;
 /**
  * Interface for A* search.

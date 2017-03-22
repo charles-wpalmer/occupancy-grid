@@ -1,10 +1,12 @@
+package PriorityQueue;
+
 /**
 * ------------------------------------------------------------------------------------------------------------
 * 											 |	Introduction  |
 * ------------------------------------------------------------------------------------------------------------
-* This class, DEPQ provides the functionality for a double ended priority queue, in which both the minimum
+* This class, PriorityQueue.DEPQ provides the functionality for a double ended priority queue, in which both the minimum
 * and maximum values are calculated, and should both be accounted for. The class has 7 main methods that are 
-* enforced by the interface DEPQ, these are add, size, isEmpty, inspectMost, inspectLeast, getMost and finally
+* enforced by the interface PriorityQueue.DEPQ, these are add, size, isEmpty, inspectMost, inspectLeast, getMost and finally
 * getLeast. This implementation of a double ended priority queue uses the Interval heap data structure, which
 * uses nodes, each node can hold up to two values, left and/or right, where the left value is always smaller 
 * then or equal to the right, so we can say l <= r. As well as both of the keys in each node being within the 
@@ -547,7 +549,7 @@ public class DEPQ implements IDEPQ{
 	
 	/**
 	 * The comparable type has been used so that the value held in the nodes left and right keys can change, as long as
-	 * they are the same. Therefore either Int's or strings can be used in the DEPQ. Two parameters are passed through
+	 * they are the same. Therefore either Int's or strings can be used in the PriorityQueue.DEPQ. Two parameters are passed through
 	 * when the method is called, the two values that are to be compared. Then the two values are compared, if a is
 	 * greater than b, the return will be positive, if 0 the values are equal if negative, b is greater than a.
 	 * @param a to be compared to b.

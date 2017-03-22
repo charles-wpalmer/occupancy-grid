@@ -1,15 +1,13 @@
-
+package PriorityQueue;
 
 import java.util.ArrayList;
-import org.junit.After;
-import org.junit.AfterClass;
+
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Some basics tests of a Double Ended Priority Queue interface DEPQ
+ * Some basics tests of a Double Ended Priority Queue interface PriorityQueue.DEPQ
  * You will need to change the setUp method to create an instance of your class that implements the interface.
  * Feel free to add more tests to ensure your solution is working as you expect.
  * 
@@ -28,7 +26,7 @@ public class DEPQTest {
     
     
     /**
-     * Test of inspectLeast method, of class DEPQ.
+     * Test of inspectLeast method, of class PriorityQueue.DEPQ.
      */
     @Test
     public void testInspectLeast() {
@@ -70,7 +68,7 @@ public class DEPQTest {
         }
     }
     /**
-     * Test of inspectMost method, of class DEPQ.
+     * Test of inspectMost method, of class PriorityQueue.DEPQ.
      */
     @Test
     public void testInspectMost() {
@@ -118,7 +116,7 @@ public class DEPQTest {
     }
 
     /**
-     * Test of add method, of class DEPQ.
+     * Test of add method, of class PriorityQueue.DEPQ.
      */
     @Test
     public void testAdd() {
@@ -136,7 +134,7 @@ public class DEPQTest {
     }
 
     /**
-     * Test of getLeast method, of class DEPQ.
+     * Test of getLeast method, of class PriorityQueue.DEPQ.
      */
     @Test
     public void testGetLeast() {
@@ -153,7 +151,7 @@ public class DEPQTest {
     }
 
     /**
-     * Test of getMost method, of class DEPQ.
+     * Test of getMost method, of class PriorityQueue.DEPQ.
      */
     @Test
     public void testGetMost() {
@@ -170,7 +168,7 @@ public class DEPQTest {
     }
 
     /**
-     * Test of isEmpty method, of class DEPQ.
+     * Test of isEmpty method, of class PriorityQueue.DEPQ.
      */
     @Test
     public void testIsEmpty() {
@@ -195,7 +193,7 @@ public class DEPQTest {
     }
 
     /**
-     * Test of size method, of class DEPQ.
+     * Test of size method, of class PriorityQueue.DEPQ.
      */
     @Test
     public void testSize() {
