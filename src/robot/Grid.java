@@ -20,6 +20,23 @@ public class Grid {
             }
         }
     }
+    
+    public void copyGrid(Grid newG, Grid oldG){
+
+        for(int x=0;x<GRID_SIZE;x++){
+            for(int y=0;y<GRID_SIZE;y++){
+                oldG.occupancyGrid[x][y] = newG.occupancyGrid[x][y];
+            }
+        }
+
+    }
+
+    /**
+     * TODO: Finish if next move is legal or not.
+     */
+    public boolean legal(int x, int y){
+        return true;
+    }
 
     private double calc_y(double y, double range, double orientation, double sensor) {
         return y + range * Math.sin(orientation + sensor);
@@ -27,6 +44,10 @@ public class Grid {
 
     private double calc_x(double x, double range, double orientation, double sensor) {
         return x + range * Math.cos(orientation + sensor);
+    }
+    
+    public Cell getCell(int x, int y){
+        return this.occupancyGrid[x][y];
     }
 
     void convertData(Data data){
