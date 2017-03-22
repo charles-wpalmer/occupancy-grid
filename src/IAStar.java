@@ -1,6 +1,6 @@
 import robot.*;
 /**
- * Class to handle A star search
+ * Interface for A* search.
  * Created by charles on 21/03/17.
  */
 public interface IAStar {
