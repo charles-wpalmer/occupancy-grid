@@ -12,5 +12,5 @@ public interface IFactory {
 
     public void registerSingleton(Object type);
 
-    public void getInstance(String type);
+    public Object getInstance(String type);
 }
