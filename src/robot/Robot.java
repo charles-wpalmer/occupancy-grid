@@ -1,7 +1,6 @@
 package robot;
 
 import AI.*;
-import PriorityQueue.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -35,16 +34,9 @@ public class Robot {
      *
      */
     public void navigate() {
-        Grid temp;
+        AStar searcher = new AStar();
 
-        DEPQ frontier = new DEPQ();
-
-        frontier.add(this.environment);
-
-        while(this.environment.isGoal(this.environment)){
-            //Keep calling expand all, and iterating round
-            //and adding to the queue.
-        }
+        searcher.start(this);
     }
 
     private double[] convertString(String[] data, int size){
@@ -55,6 +47,10 @@ public class Robot {
             newData[i++] = Double.valueOf(str);
 
         return newData;
+    }
+
+    public Grid getGrid(){
+        return this.environment;
     }
 
     public void readFromFile(String posesPath, String rangesPath){

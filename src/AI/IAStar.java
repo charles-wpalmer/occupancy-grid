@@ -9,6 +9,8 @@ public interface IAStar {
 
     public void expandAll(Grid grid, int depth);
 
+    public void start(Robot r);
+
     public void finalise();
 
     public void playSolution();
