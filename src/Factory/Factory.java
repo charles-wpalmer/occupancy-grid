@@ -10,4 +10,18 @@ import java.util.Objects;
 public class Factory implements IFactory {
 
 
+    @Override
+    public void register(String type) {
+
+    }
+
+    @Override
+    public void registerSingleton(Object type) {
+
+    }
+
+    @Override
+    public Object getInstance(String type) {
+        return null;
+    }
 }
