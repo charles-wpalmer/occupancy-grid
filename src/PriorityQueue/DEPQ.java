@@ -313,6 +313,9 @@ public class DEPQ implements IDEPQ{
 	 * @return returns the smallest value of the tree.
 	 */
 	public Comparable<?> getLeast() {
+		if(listSize == 0) {
+			return null;
+		}
 		Comparable oldMin = min;
 		Interval rootNode, currNode, childA, childB;
 		curr = listSize - 1;

@@ -1,5 +1,7 @@
 package robot;
 
+import PriorityQueue.DEPQ;
+
 /**
  * Class to represent the grid the robot will use
  * Created by charles on 22/02/17.
@@ -11,7 +13,8 @@ public class Grid implements Comparable<Grid>{
 
     private int GRID_SIZE = 50;
 
-    //Make private
+    // @TODO:
+    // Make private
     public int f, h;
 
     Grid() {
@@ -25,13 +28,17 @@ public class Grid implements Comparable<Grid>{
         }
     }
 
+    public void expandAll(Grid grid, int depth, DEPQ open){
+
+    }
+
     public void setGoalState(int x, int y){
         this.goalX = x;
         this.goalY = y;
     }
 
-    public boolean isGoal(Grid curr){
-        return (curr.goalX == curr.robotX && curr.goalY == curr.robotY);
+    public boolean isGoal(){
+        return (this.goalX == this.robotX && this.goalY == this.robotY);
     }
 
     public void copyGrid(Grid newG, Grid oldG){
@@ -44,7 +51,7 @@ public class Grid implements Comparable<Grid>{
 
     }
 
-    public boolean legal(int x, int y){
+    public boolean isLegal(int x, int y){
         return ((x >= 0) && (x < GRID_SIZE) && (y >= 0)
                 && (y < GRID_SIZE)
                 && this.occupancyGrid[x][y].getOccuided());

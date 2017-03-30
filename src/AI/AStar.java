@@ -12,24 +12,19 @@ import robot.Robot;
 public class AStar implements IAStar{
 
     @Override
-    public void expandAll(Grid grid, int depth) {
-
-    }
-
-    @Override
     public void start(Robot r) {
         Grid temp;
 
         DEPQ frontier = new DEPQ();
 
         frontier.add(r.getGrid());
-        temp = (Grid) frontier.inspectMost();
+        temp = (Grid) frontier.getLeast();
 
-        while(r.getGrid().isGoal(r.getGrid())){
+        while((temp!=null)){
             //Keep calling expand all, and iterating round
             //and adding to the queue.
-
-            frontier.getLeast();
+            System.out.println(temp);
+            temp = (Grid) frontier.getLeast();
         }
     }
 
