@@ -4,26 +4,38 @@ import PriorityQueue.DEPQ;
 import robot.Grid;
 import robot.Robot;
 
+import java.util.HashSet;
+
 
 /**
  * Class to handle A* searching.
  * Created by charles on 22/03/17.
  */
 public class AStar implements IAStar{
+    private HashSet explored;
+
+    private DEPQ frontier;
 
     @Override
     public void start(Robot r) {
         Grid temp;
 
-        DEPQ frontier = new DEPQ();
-
+        frontier = new DEPQ();
+        explored = new HashSet<String>();
         frontier.add(r.getGrid());
         temp = (Grid) frontier.getLeast();
 
         while((temp!=null)){
             //Keep calling expand all, and iterating round
             //and adding to the queue.
-            System.out.println(temp);
+            if(temp.isGoal()){
+                //End, at goal
+            }
+            if(explored.contains(temp)){
+                continue;
+            }
+            temp.expandAll(temp, temp.depth, frontier);
+            explored.add(temp);
             temp = (Grid) frontier.getLeast();
         }
     }

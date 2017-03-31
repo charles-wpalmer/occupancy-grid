@@ -13,6 +13,8 @@ public class Cell implements ICell{
 
     private boolean isRobot;
 
+    private boolean isGoal;
+
     private ICell left, right, up, down;
 
     public Cell(){
@@ -25,6 +27,14 @@ public class Cell implements ICell{
 
     public boolean getOccuided(){
         return this.occuided;
+    }
+
+    public void setIsGoal(boolean goal){
+        this.isGoal = goal;
+    }
+
+    public boolean getIsGoal(){
+        return this.isGoal;
     }
 
     public void setMaybeOccupied(boolean status){

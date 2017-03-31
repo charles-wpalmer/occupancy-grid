@@ -9,6 +9,8 @@ import PriorityQueue.DEPQ;
 public class Grid implements Comparable<Grid>{
     private int goalX, goalY, robotX, robotY;
 
+    private Grid parent;
+
     private Cell occupancyGrid[][];
 
     private int GRID_SIZE = 50;
@@ -16,6 +18,7 @@ public class Grid implements Comparable<Grid>{
     // @TODO:
     // Make private
     public int f, h;
+    public int depth;
 
     Grid() {
         this.occupancyGrid = new Cell[50][50];
@@ -28,8 +31,55 @@ public class Grid implements Comparable<Grid>{
         }
     }
 
-    public void expandAll(Grid grid, int depth, DEPQ open){
+    Grid(int depth) {
+        this.occupancyGrid = new Cell[50][50];
+        this.depth = depth;
+        for(int x=0;x<GRID_SIZE;x++){
+            for(int y=0;y<GRID_SIZE;y++){
+                Cell cell = new Cell();
+                this.occupancyGrid[x][y] = cell;
+            }
+        }
+    }
 
+    public Grid getParent(){
+        return this.parent;
+    }
+
+    public void setParent(Grid parent){
+        this.parent = parent;
+    }
+
+    public int getDepth(){
+        return this.depth;
+    }
+
+    public void expandAll(Grid parent, int depth, DEPQ open){
+        Grid temp;
+        //Foreach neighbour
+            //calculate f=g+h
+        if(this.isLegal(parent.robotX -1, parent.robotY)){
+            temp = new Grid(depth);
+
+            this.copyGrid(temp, parent);
+            temp.setThisCell(parent.getRobotX()-1, parent.getRobotY(), 2);
+            temp.setThisCell(parent.getRobotX(), parent.getRobotY(), 1);
+
+            temp.setParent(parent);
+
+
+            temp.f = depth;
+            open.add(temp);
+        }
+        if(this.isLegal(parent.robotX +1, parent.robotY)){
+
+        }
+        if(this.isLegal(parent.robotX, parent.robotY+1)){
+
+        }
+        if(this.isLegal(parent.robotX, parent.robotY+1)){
+
+        }
     }
 
     public void setGoalState(int x, int y){
@@ -69,6 +119,14 @@ public class Grid implements Comparable<Grid>{
         return this.occupancyGrid[x][y];
     }
 
+    private int getRobotX(){
+        return this.robotX;
+    }
+
+    private int getRobotY(){
+        return this.robotY;
+    }
+
     void convertData(Data data){
 
         for(int i=0; i < 8; i++){
@@ -87,13 +145,8 @@ public class Grid implements Comparable<Grid>{
 
     }
 
-    void setCell(double x, double y, int type){
-
-        int x_cell = (int)(x/0.2) - 1;
-        int y_cell = GRID_SIZE - (int)(y/0.2) - 1;
-
+    private void setThisCell(int x_cell, int y_cell, int type){
         if(type == 1) {
-
             if(x_cell < 50 && y_cell < 50 && x_cell >= 0 && y_cell >= 0 && type == 1) {
                 Cell cell = new Cell();
                 cell.setOccuided(true);
@@ -107,6 +160,13 @@ public class Grid implements Comparable<Grid>{
             this.robotX = x_cell;
             this.robotY = y_cell;
         }
+    }
+
+    void setCell(double x, double y, int type){
+        int x_cell = (int)(x/0.2) - 1;
+        int y_cell = GRID_SIZE - (int)(y/0.2) - 1;
+
+        this.setThisCell(x_cell, y_cell, type);
     }
 
     void print(){

@@ -1,5 +1,7 @@
 package PriorityQueue;
 
+import robot.Grid;
+
 /**
 * ------------------------------------------------------------------------------------------------------------
 * 											 |	Introduction  |
@@ -549,7 +551,17 @@ public class DEPQ implements IDEPQ{
 		}
 		return oldMax;
 	}
-	
+
+	public boolean contains(Grid needle){
+		for(int i=0; i<=listSize; i++){
+			if(list[i].left == needle || list[i].right == needle){
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	/**
 	 * The comparable type has been used so that the value held in the nodes left and right keys can change, as long as
 	 * they are the same. Therefore either Int's or strings can be used in the PriorityQueue.DEPQ. Two parameters are passed through
