@@ -1,6 +1,7 @@
 package robot;
 
 import PriorityQueue.DEPQ;
+import javafx.scene.Group;
 
 /**
  * Class to represent the grid the robot will use
@@ -54,31 +55,50 @@ public class Grid implements Comparable<Grid>{
         return this.depth;
     }
 
+    private void createNode(DEPQ open, Grid parent, int depth, int x, int y){
+        Grid temp;
+        temp = new Grid(depth);
+
+        this.copyGrid(temp, parent);
+        temp.setThisCell(x, y, 2);
+        temp.setThisCell(parent.getRobotX(), parent.getRobotY(), 1);
+
+        temp.setParent(parent);
+
+
+        temp.f = depth;
+        open.add(temp);
+    }
+
     public void expandAll(Grid parent, int depth, DEPQ open){
+        int x = 0;
+        int y = 0;
         Grid temp;
         //Foreach neighbour
             //calculate f=g+h
         if(this.isLegal(parent.robotX -1, parent.robotY)){
-            temp = new Grid(depth);
+            x = parent.getRobotX()-1;
+            y = parent.getRobotY();
 
-            this.copyGrid(temp, parent);
-            temp.setThisCell(parent.getRobotX()-1, parent.getRobotY(), 2);
-            temp.setThisCell(parent.getRobotX(), parent.getRobotY(), 1);
-
-            temp.setParent(parent);
-
-
-            temp.f = depth;
-            open.add(temp);
+            this.createNode(open, parent, depth, x, y);
         }
-        if(this.isLegal(parent.robotX +1, parent.robotY)){
+        if(this.isLegal(parent.robotX +1, parent.robotY))
+            x = parent.getRobotX()+1;
+            y = parent.getRobotY();
 
+            this.createNode(open, parent, depth, x, y);
+
+        if(this.isLegal(parent.robotX, parent.robotY+1)){
+            x = parent.getRobotX();
+            y = parent.getRobotY()+1;
+
+            this.createNode(open, parent, depth, x, y);
         }
         if(this.isLegal(parent.robotX, parent.robotY+1)){
+            x = parent.getRobotX();
+            y = parent.getRobotY()-1;
 
-        }
-        if(this.isLegal(parent.robotX, parent.robotY+1)){
-
+            this.createNode(open, parent, depth, x, y);
         }
     }
 
@@ -102,9 +122,9 @@ public class Grid implements Comparable<Grid>{
     }
 
     public boolean isLegal(int x, int y){
-        return ((x >= 0) && (x < GRID_SIZE) && (y >= 0)
+        return ((x >= 0) || (x < GRID_SIZE) && (y >= 0)
                 && (y < GRID_SIZE)
-                && this.occupancyGrid[x][y].getOccuided());
+                && !this.occupancyGrid[x][y].getOccuided());
     }
 
     private double calc_y(double y, double range, double orientation, double sensor) {
