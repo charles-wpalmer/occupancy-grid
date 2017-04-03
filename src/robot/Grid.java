@@ -70,35 +70,35 @@ public class Grid implements Comparable<Grid>{
         open.add(temp);
     }
 
-    public void expandAll(Grid parent, int depth, DEPQ open){
+    public void expandAll(DEPQ open){
         int x = 0;
         int y = 0;
         Grid temp;
         //Foreach neighbour
             //calculate f=g+h
-        if(this.isLegal(parent.robotX -1, parent.robotY)){
+        if(this.isLegal(this.robotX -1, this.robotY)){
             x = parent.getRobotX()-1;
             y = parent.getRobotY();
 
-            this.createNode(open, parent, depth, x, y);
+            this.createNode(open, this, this.depth, x, y);
         }
-        if(this.isLegal(parent.robotX +1, parent.robotY))
+        if(this.isLegal(this.robotX+1, this.robotY)){
             x = parent.getRobotX()+1;
             y = parent.getRobotY();
 
-            this.createNode(open, parent, depth, x, y);
-
-        if(this.isLegal(parent.robotX, parent.robotY+1)){
-            x = parent.getRobotX();
-            y = parent.getRobotY()+1;
-
-            this.createNode(open, parent, depth, x, y);
+            this.createNode(open, this, this.depth, x, y);
         }
-        if(this.isLegal(parent.robotX, parent.robotY+1)){
+        if(this.isLegal(this.robotX, this.robotY-1)){
             x = parent.getRobotX();
             y = parent.getRobotY()-1;
 
-            this.createNode(open, parent, depth, x, y);
+            this.createNode(open, this, this.depth, x, y);
+        }
+        if(this.isLegal(this.robotX, this.robotY+1)){
+            x = parent.getRobotX();
+            y = parent.getRobotY()+1;
+
+            this.createNode(open, this, this.depth, x, y);
         }
     }
 
