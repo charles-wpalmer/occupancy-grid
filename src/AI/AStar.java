@@ -26,6 +26,7 @@ public class AStar implements IAStar{
         temp = (Grid) frontier.getLeast();
 
         while((temp!=null)){
+            temp.print();
             //Keep calling expand all, and iterating round
             //and adding to the queue.
             if(temp.isGoal()){

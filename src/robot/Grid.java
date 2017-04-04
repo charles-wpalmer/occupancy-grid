@@ -3,6 +3,8 @@ package robot;
 import PriorityQueue.DEPQ;
 import javafx.scene.Group;
 
+import java.util.Random;
+
 /**
  * Class to represent the grid the robot will use
  * Created by charles on 22/02/17.
@@ -59,14 +61,15 @@ public class Grid implements Comparable<Grid>{
         Grid temp;
         temp = new Grid(depth);
 
-        this.copyGrid(temp, parent);
+        copyGrid(temp, parent);
         temp.setThisCell(x, y, 2);
         temp.setThisCell(parent.getRobotX(), parent.getRobotY(), 1);
+        Random rand = new Random();
 
+        int n = rand.nextInt(20) + 1;
         temp.setParent(parent);
 
-
-        temp.f = depth;
+        temp.f = depth + n;
         open.add(temp);
     }
 
@@ -76,29 +79,33 @@ public class Grid implements Comparable<Grid>{
         Grid temp;
         //Foreach neighbour
             //calculate f=g+h
-        if(this.isLegal(parent.robotX -1, parent.robotY)){
+        if(parent.isLegal(parent.getRobotX() -1, parent.getRobotY())){
+            //System.out.println(isLegal(parent.robotX -1, parent.robotY)+" "+parent.robotX);
             x = parent.getRobotX()-1;
             y = parent.getRobotY();
 
-            this.createNode(open, parent, depth, x, y);
+            createNode(open, parent, depth, x, y);
         }
-        if(this.isLegal(parent.robotX +1, parent.robotY))
+        if(parent.isLegal(parent.getRobotX() +1, parent.getRobotY()))
+            //System.out.println(isLegal(parent.robotX -1, parent.robotY)+" "+parent.robotX);
             x = parent.getRobotX()+1;
             y = parent.getRobotY();
 
-            this.createNode(open, parent, depth, x, y);
+            createNode(open, parent, depth, x, y);
 
-        if(this.isLegal(parent.robotX, parent.robotY+1)){
+        if(parent.isLegal(parent.getRobotX(), parent.getRobotY()+1)){
+            //System.out.println(isLegal(parent.robotX -1, parent.robotY)+" "+parent.robotY);
             x = parent.getRobotX();
             y = parent.getRobotY()+1;
 
-            this.createNode(open, parent, depth, x, y);
+            createNode(open, parent, depth, x, y);
         }
-        if(this.isLegal(parent.robotX, parent.robotY+1)){
+        if(parent.isLegal(parent.getRobotX(), parent.getRobotY()-1)){
+            //System.out.println(isLegal(parent.robotX -1, parent.robotY)+" "+parent.robotY);
             x = parent.getRobotX();
             y = parent.getRobotY()-1;
 
-            this.createNode(open, parent, depth, x, y);
+            createNode(open, parent, depth, x, y);
         }
     }
 
@@ -115,16 +122,16 @@ public class Grid implements Comparable<Grid>{
 
         for(int x=0;x<GRID_SIZE;x++){
             for(int y=0;y<GRID_SIZE;y++){
-                oldG.occupancyGrid[x][y] = newG.occupancyGrid[x][y];
+                newG.occupancyGrid[x][y] = oldG.occupancyGrid[x][y];
             }
         }
 
     }
 
     public boolean isLegal(int x, int y){
-        return ((x >= 0) || (x < GRID_SIZE) && (y >= 0)
-                && (y < GRID_SIZE)
-                && !this.occupancyGrid[x][y].getOccuided());
+        return ((x >= 0) && (x < GRID_SIZE) && (y >= 0) &&
+                (y < GRID_SIZE) && !this.getCell(x, y).getOccuided());
+
     }
 
     private double calc_y(double y, double range, double orientation, double sensor) {
@@ -189,7 +196,7 @@ public class Grid implements Comparable<Grid>{
         this.setThisCell(x_cell, y_cell, type);
     }
 
-    void print(){
+    public void print(){
         for(int i=0; i<GRID_SIZE; i++){
             for (int j = 0; j < GRID_SIZE; j++) {
 
@@ -210,12 +217,7 @@ public class Grid implements Comparable<Grid>{
 
     @Override
     public int compareTo(Grid o) {
-        if(f == o.f)
-            return 0;
-        else if(f > o.f)
-            return 1;
-        else
-            return -1;
+        return f-o.f;
 
     }
 }
