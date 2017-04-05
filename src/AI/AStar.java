@@ -35,7 +35,7 @@ public class AStar implements IAStar{
             if(explored.contains(temp)){
                 continue;
             }
-            temp.expandAll(temp, temp.depth, frontier);
+            temp.expandAll(frontier);
             explored.add(temp);
             temp = (Grid) frontier.getLeast();
         }

@@ -66,47 +66,47 @@ public class Grid implements Comparable<Grid>{
         temp.setThisCell(parent.getRobotX(), parent.getRobotY(), 1);
         Random rand = new Random();
 
-        int n = rand.nextInt(20) + 1;
+        int h = this.calcHeuristic();
         temp.setParent(parent);
 
-        temp.f = depth + n;
+        temp.f = depth + h;
         open.add(temp);
     }
 
-    public void expandAll(Grid parent, int depth, DEPQ open){
+    public void expandAll(DEPQ open){
         int x = 0;
         int y = 0;
-        Grid temp;
         //Foreach neighbour
             //calculate f=g+h
-        if(parent.isLegal(parent.getRobotX() -1, parent.getRobotY())){
+        if(this.isLegal(this.getRobotX() -1, this.getRobotY())){
             //System.out.println(isLegal(parent.robotX -1, parent.robotY)+" "+parent.robotX);
-            x = parent.getRobotX()-1;
-            y = parent.getRobotY();
+            x = this.getRobotX()-1;
+            y = this.getRobotY();
 
-            createNode(open, parent, depth, x, y);
+            createNode(open, this, depth, x, y);
         }
-        if(parent.isLegal(parent.getRobotX() +1, parent.getRobotY()))
+        if(this.isLegal(this.getRobotX() +1, this.getRobotY())){
             //System.out.println(isLegal(parent.robotX -1, parent.robotY)+" "+parent.robotX);
-            x = parent.getRobotX()+1;
-            y = parent.getRobotY();
+            x = this.getRobotX()+1;
+            y = this.getRobotY();
 
-            createNode(open, parent, depth, x, y);
-
-        if(parent.isLegal(parent.getRobotX(), parent.getRobotY()+1)){
-            //System.out.println(isLegal(parent.robotX -1, parent.robotY)+" "+parent.robotY);
-            x = parent.getRobotX();
-            y = parent.getRobotY()+1;
-
-            createNode(open, parent, depth, x, y);
+            createNode(open, this, depth, x, y);
         }
-        if(parent.isLegal(parent.getRobotX(), parent.getRobotY()-1)){
-            //System.out.println(isLegal(parent.robotX -1, parent.robotY)+" "+parent.robotY);
-            x = parent.getRobotX();
-            y = parent.getRobotY()-1;
+        if(this.isLegal(this.getRobotX(), this.getRobotY() -1)){
+            //System.out.println(isLegal(parent.robotX -1, parent.robotY)+" "+parent.robotX);
+            x = this.getRobotX();
+            y = this.getRobotY()-1;
 
-            createNode(open, parent, depth, x, y);
+            createNode(open, this, depth, x, y);
         }
+        if(this.isLegal(this.getRobotX(), this.getRobotY() +1)){
+            //System.out.println(isLegal(parent.robotX -1, parent.robotY)+" "+parent.robotX);
+            x = this.getRobotX();
+            y = this.getRobotY()+1;
+
+            createNode(open, this, depth, x, y);
+        }
+
     }
 
     public void setGoalState(int x, int y){
