@@ -34,7 +34,7 @@ public class Grid implements Comparable<Grid>{
         }
     }
 
-    Grid(int depth) {
+    public Grid(int depth) {
         this.occupancyGrid = new Cell[50][50];
         this.depth = depth;
         for(int x=0;x<GRID_SIZE;x++){
@@ -57,58 +57,6 @@ public class Grid implements Comparable<Grid>{
         return this.depth;
     }
 
-    private void createNode(DEPQ open, Grid parent, int depth, int x, int y){
-        Grid temp;
-        temp = new Grid(depth);
-
-        copyGrid(temp, parent);
-        temp.setThisCell(x, y, 2);
-        temp.setThisCell(parent.getRobotX(), parent.getRobotY(), 1);
-        Random rand = new Random();
-
-        int h = this.calcHeuristic();
-        temp.setParent(parent);
-
-        temp.f = depth + h;
-        open.add(temp);
-    }
-
-    public void expandAll(DEPQ open){
-        int x = 0;
-        int y = 0;
-        //Foreach neighbour
-            //calculate f=g+h
-        if(this.isLegal(this.getRobotX() -1, this.getRobotY())){
-            //System.out.println(isLegal(parent.robotX -1, parent.robotY)+" "+parent.robotX);
-            x = this.getRobotX()-1;
-            y = this.getRobotY();
-
-            createNode(open, this, depth, x, y);
-        }
-        if(this.isLegal(this.getRobotX() +1, this.getRobotY())){
-            //System.out.println(isLegal(parent.robotX -1, parent.robotY)+" "+parent.robotX);
-            x = this.getRobotX()+1;
-            y = this.getRobotY();
-
-            createNode(open, this, depth, x, y);
-        }
-        if(this.isLegal(this.getRobotX(), this.getRobotY() -1)){
-            //System.out.println(isLegal(parent.robotX -1, parent.robotY)+" "+parent.robotX);
-            x = this.getRobotX();
-            y = this.getRobotY()-1;
-
-            createNode(open, this, depth, x, y);
-        }
-        if(this.isLegal(this.getRobotX(), this.getRobotY() +1)){
-            //System.out.println(isLegal(parent.robotX -1, parent.robotY)+" "+parent.robotX);
-            x = this.getRobotX();
-            y = this.getRobotY()+1;
-
-            createNode(open, this, depth, x, y);
-        }
-
-    }
-
     public void setGoalState(int x, int y){
         this.goalX = x;
         this.goalY = y;
@@ -128,12 +76,6 @@ public class Grid implements Comparable<Grid>{
 
     }
 
-    public boolean isLegal(int x, int y){
-        return ((x >= 0) && (x < GRID_SIZE) && (y >= 0) &&
-                (y < GRID_SIZE) && !this.getCell(x, y).getOccuided());
-
-    }
-
     private double calc_y(double y, double range, double orientation, double sensor) {
         return y + range * Math.sin(orientation + sensor);
     }
@@ -146,11 +88,11 @@ public class Grid implements Comparable<Grid>{
         return this.occupancyGrid[x][y];
     }
 
-    private int getRobotX(){
+    public int getRobotX(){
         return this.robotX;
     }
 
-    private int getRobotY(){
+    public int getRobotY(){
         return this.robotY;
     }
 
@@ -172,17 +114,19 @@ public class Grid implements Comparable<Grid>{
 
     }
 
-    private void setThisCell(int x_cell, int y_cell, int type){
+    public void setThisCell(int x_cell, int y_cell, int type){
         if(type == 1) {
-            if(x_cell < 50 && y_cell < 50 && x_cell >= 0 && y_cell >= 0 && type == 1) {
+            if(x_cell < 50 && y_cell < 50 && x_cell >= 0 && y_cell >= 0) {
                 Cell cell = new Cell();
                 cell.setOccuided(true);
+                cell.setHasRobot(false);
                 this.occupancyGrid[y_cell][x_cell] = cell;
             }
 
         } else {
             Cell cell = new Cell();
             cell.setHasRobot(true);
+            cell.setOccuided(false);
             this.occupancyGrid[y_cell][x_cell] = cell;
             this.robotX = x_cell;
             this.robotY = y_cell;

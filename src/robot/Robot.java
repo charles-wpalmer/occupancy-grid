@@ -25,7 +25,7 @@ public class Robot {
     }
 
     public void addRobot(double x, double y){
-        this.environment.setCell(2, 2, 2);
+        this.environment.setThisCell(2, 2, 2);
     }
 
     /**
