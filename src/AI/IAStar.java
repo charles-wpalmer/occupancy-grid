@@ -13,5 +13,5 @@ public interface IAStar {
 
     public void playSolution();
 
-    public int calculateCost();
+    public int calculateCost(Grid grid);
 }

@@ -15,17 +15,21 @@ public class Robot {
     private Grid environment;
     private double xpos, ypos, orientation;
     ArrayList<Data> data_list;
+    private int goalX;
+    private int goalY;
 
     public Robot(){
         this.environment = new Grid();
     }
 
-    public void print(){
-
+    public void addRobot(int x, int y){
+        this.environment.setThisCell(2, 2, 2);
     }
 
-    public void addRobot(double x, double y){
-        this.environment.setThisCell(2, 2, 2);
+    public void addGoal(int x, int y){
+        this.goalX = x;
+        this.goalY = y;
+        this.environment.setThisCell(x, y, 4);
     }
 
     /**
@@ -49,6 +53,14 @@ public class Robot {
         return newData;
     }
 
+    public int getGoalX(){
+        return this.goalX;
+    }
+
+    public int getGoalY(){
+        return this.goalY;
+    }
+
     public Grid getGrid(){
         return this.environment;
     }
@@ -69,6 +81,7 @@ public class Robot {
             String rangesLine, posesLine = null;
 
             this.addRobot(1, 1);
+            this.addGoal(30, 15);
 
             while((rangesLine = brr.readLine()) != null && (posesLine = brp.readLine()) != null){
                 String[] ranges = rangesLine.split(" ");

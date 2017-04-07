@@ -9,13 +9,14 @@ public class Cell implements ICell{
 
     private boolean occuided;
 
+    private boolean explored;
+
     private boolean nearOccupied;
 
     private boolean isRobot;
 
     private boolean isGoal;
 
-    private ICell left, right, up, down;
 
     public Cell(){
         this.occuided = false;
@@ -23,6 +24,14 @@ public class Cell implements ICell{
 
     public void setOccuided(boolean occuided){
         this.occuided = occuided;
+    }
+
+    public void setExplored(boolean status){
+        this.explored = true;
+    }
+
+    public boolean getExplored(){
+        return this.explored;
     }
 
     public boolean getOccuided(){
@@ -51,37 +60,5 @@ public class Cell implements ICell{
 
     public boolean getHasRobot(){
         return this.isRobot;
-    }
-
-    public void setLeft(ICell left){
-        this.left = left;
-    }
-
-    public ICell getLeft() {
-        return this.left;
-    }
-
-    public void setRight(ICell right){
-        this.right = right;
-    }
-
-    public ICell getRight() {
-        return this.right;
-    }
-
-    public void setUp(Cell up){
-        this.up = up;
-    }
-
-    public ICell getUp() {
-        return this.up;
-    }
-
-    public void setDown(Cell down){
-        this.down = down;
-    }
-
-    public ICell getDown() {
-        return this.down;
     }
 }

@@ -5,8 +5,6 @@ import robot.Grid;
 import robot.Robot;
 
 import java.util.HashSet;
-import java.util.Random;
-
 
 /**
  * Class to handle A* searching.
@@ -14,25 +12,30 @@ import java.util.Random;
  */
 public class AStar implements IAStar{
 
+    private int goalX, goalY;
+
     @Override
     public void start(Robot r) {
         Grid temp;
+
+        this.goalY = r.getGoalY();
+        this.goalX = r.getGoalX();
 
         DEPQ frontier = new DEPQ();
         HashSet explored = new HashSet<String>();
 
         frontier.add(r.getGrid());
         temp = (Grid) frontier.getLeast();
-        int i =0;
+
         while((temp!=null)){
-            if(i > 1) {
-                break;
-            }
-            temp.print();
+            //temp.print();
+
             //Keep calling expand all, and iterating round
             //and adding to the queue.
-            if(temp.isGoal()){
-                //End, at goal
+            if(temp.isGoal(r.getGoalX(), r.getGoalY())){
+                System.out.println("Goal Found!");
+                temp.print();
+                break;
             }
             if(explored.contains(temp)){
                 continue;
@@ -40,12 +43,7 @@ public class AStar implements IAStar{
             expandAll(temp, frontier, temp.getDepth()+1);
             explored.add(temp);
             temp = (Grid) frontier.getLeast();
-            i++;
         }
-    }
-
-    private int calcHeuristic(){
-        return 1;
     }
 
     private boolean isLegal(int x, int y, Grid board){
@@ -58,13 +56,14 @@ public class AStar implements IAStar{
         Grid temp;
         temp = new Grid(depth);
 
+        temp.setParent(parent);
         parent.copyGrid(temp, parent);
         temp.setThisCell(x, y, 2);
-        temp.setThisCell(parent.getRobotX(), parent.getRobotY(), 1);
+        temp.setThisCell(parent.getRobotX(), parent.getRobotY(), 3);
 
-        int h = this.calcHeuristic();
-        temp.setParent(parent);
+        int h = this.calculateCost(temp);
 
+        //f(n) = g(n) + h(n)
         temp.f = depth + h;
         open.add(temp);
     }
@@ -75,28 +74,24 @@ public class AStar implements IAStar{
         //Foreach neighbour
         //calculate f=g+h
         if(isLegal(parent.getRobotX() -1, parent.getRobotY(), parent)){
-            //System.out.println(isLegal(parent.robotX -1, parent.robotY)+" "+parent.robotX);
             x = parent.getRobotX()-1;
             y = parent.getRobotY();
 
             createNode(open, parent, depth, x, y);
         }
         if(isLegal(parent.getRobotX() +1, parent.getRobotY(), parent)){
-            //System.out.println(isLegal(parent.robotX -1, parent.robotY)+" "+parent.robotX);
             x = parent.getRobotX()+1;
             y = parent.getRobotY();
 
             createNode(open, parent, depth, x, y);
         }
         if(isLegal(parent.getRobotX(), parent.getRobotY() -1, parent)){
-            //System.out.println(isLegal(parent.robotX -1, parent.robotY)+" "+parent.robotX);
             x = parent.getRobotX();
             y = parent.getRobotY()-1;
 
             createNode(open, parent, depth, x, y);
         }
         if(isLegal(parent.getRobotX(), parent.getRobotY() +1, parent)){
-            //System.out.println(isLegal(parent.robotX -1, parent.robotY)+" "+parent.robotX);
             x = parent.getRobotX();
             y = parent.getRobotY()+1;
 
@@ -116,7 +111,10 @@ public class AStar implements IAStar{
     }
 
     @Override
-    public int calculateCost() {
-        return 0;
+    public int calculateCost(Grid grid) {
+        int y = this.goalY - grid.getRobotY();
+        int x = this.goalX - grid.getRobotX();
+
+        return Math.abs(x + y);
     }
 }

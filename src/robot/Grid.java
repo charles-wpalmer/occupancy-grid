@@ -1,16 +1,11 @@
 package robot;
 
-import PriorityQueue.DEPQ;
-import javafx.scene.Group;
-
-import java.util.Random;
-
 /**
  * Class to represent the grid the robot will use
  * Created by charles on 22/02/17.
  */
 public class Grid implements Comparable<Grid>{
-    private int goalX, goalY, robotX, robotY;
+    private int  robotX, robotY;
 
     private Grid parent;
 
@@ -57,21 +52,14 @@ public class Grid implements Comparable<Grid>{
         return this.depth;
     }
 
-    public void setGoalState(int x, int y){
-        this.goalX = x;
-        this.goalY = y;
-    }
-
-    public boolean isGoal(){
-        return (this.goalX == this.robotX && this.goalY == this.robotY);
+    public boolean isGoal(int goalX, int goalY){
+        return (goalX == this.robotX && goalY == this.robotY);
     }
 
     public void copyGrid(Grid newG, Grid oldG){
 
         for(int x=0;x<GRID_SIZE;x++){
-            for(int y=0;y<GRID_SIZE;y++){
-                newG.occupancyGrid[x][y] = oldG.occupancyGrid[x][y];
-            }
+            System.arraycopy(oldG.occupancyGrid[x], 0, newG.occupancyGrid[x], 0, GRID_SIZE);
         }
 
     }
@@ -119,17 +107,31 @@ public class Grid implements Comparable<Grid>{
             if(x_cell < 50 && y_cell < 50 && x_cell >= 0 && y_cell >= 0) {
                 Cell cell = new Cell();
                 cell.setOccuided(true);
+                cell.setExplored(false);
                 cell.setHasRobot(false);
                 this.occupancyGrid[y_cell][x_cell] = cell;
             }
 
-        } else {
+        } else if(type == 2){
             Cell cell = new Cell();
             cell.setHasRobot(true);
+            cell.setExplored(false);
             cell.setOccuided(false);
-            this.occupancyGrid[y_cell][x_cell] = cell;
             this.robotX = x_cell;
             this.robotY = y_cell;
+            this.occupancyGrid[y_cell][x_cell] = cell;
+
+        } else if(type == 3){
+            Cell cell = new Cell();
+            cell.setHasRobot(false);
+            cell.setExplored(true);
+            cell.setOccuided(false);
+            this.occupancyGrid[y_cell][x_cell] = cell;
+
+        } else if(type == 4){
+            Cell cell = new Cell();
+            cell.setIsGoal(true);
+            this.occupancyGrid[y_cell][x_cell] = cell;
         }
     }
 
@@ -140,20 +142,23 @@ public class Grid implements Comparable<Grid>{
         this.setThisCell(x_cell, y_cell, type);
     }
 
+    //Todo: Convert into a switch statement
     public void print(){
         for(int i=0; i<GRID_SIZE; i++){
             for (int j = 0; j < GRID_SIZE; j++) {
-
                 if (this.occupancyGrid[i][j].getHasRobot()) {
-                    System.out.println(" R ");
-                } else if (this.occupancyGrid[i][j].getOccuided()){
+                    System.out.print(" R ");
+                } else if(this.occupancyGrid[i][j].getOccuided()){
                     System.out.print(" # ");
                 } else if(this.occupancyGrid[i][j].getMaybeOccupied()){
                     System.out.print(" ~ ");
+                } else if(this.occupancyGrid[i][j].getExplored()){
+                    System.out.print(" E ");
+                } else if(this.occupancyGrid[i][j].getIsGoal()){
+                    System.out.print(" G ");
                 } else {
                     System.out.print("   ");
                 }
-
             }
             System.out.println();
         }
