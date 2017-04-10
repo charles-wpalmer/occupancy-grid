@@ -81,7 +81,7 @@ public class Robot {
             String rangesLine, posesLine = null;
 
             this.addRobot(1, 1);
-            this.addGoal(30, 15);
+            this.addGoal(17, 23);
 
             while((rangesLine = brr.readLine()) != null && (posesLine = brp.readLine()) != null){
                 String[] ranges = rangesLine.split(" ");

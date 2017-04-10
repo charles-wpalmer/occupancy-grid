@@ -13,6 +13,7 @@ import java.util.HashSet;
 public class AStar implements IAStar{
 
     private int goalX, goalY;
+    private HashSet explored;
 
     @Override
     public void start(Robot r) {
@@ -22,13 +23,13 @@ public class AStar implements IAStar{
         this.goalX = r.getGoalX();
 
         DEPQ frontier = new DEPQ();
-        HashSet explored = new HashSet<String>();
+        this.explored = new HashSet<String>();
 
         frontier.add(r.getGrid());
         temp = (Grid) frontier.getLeast();
 
         while((temp!=null)){
-            //temp.print();
+            temp.print();
 
             //Keep calling expand all, and iterating round
             //and adding to the queue.
@@ -37,11 +38,11 @@ public class AStar implements IAStar{
                 temp.print();
                 break;
             }
-            if(explored.contains(temp)){
+            if(this.explored.contains(temp)){
                 continue;
             }
             expandAll(temp, frontier, temp.getDepth()+1);
-            explored.add(temp);
+            this.explored.add(temp);
             temp = (Grid) frontier.getLeast();
         }
     }
@@ -65,6 +66,7 @@ public class AStar implements IAStar{
 
         //f(n) = g(n) + h(n)
         temp.f = depth + h;
+
         open.add(temp);
     }
 
@@ -115,6 +117,8 @@ public class AStar implements IAStar{
         int y = this.goalY - grid.getRobotY();
         int x = this.goalX - grid.getRobotX();
 
-        return Math.abs(x + y);
+        int dist = Math.abs(x) + Math.abs(y);
+        System.out.println(dist);
+        return dist;
     }
 }
