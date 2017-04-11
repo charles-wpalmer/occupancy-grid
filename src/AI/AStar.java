@@ -14,25 +14,30 @@ public class AStar implements IAStar{
 
     private int goalX, goalY;
 
+    private Grid board;
+
     @Override
     public void start(Robot r) {
         Grid temp;
 
         this.goalY = r.getGoalY();
         this.goalX = r.getGoalX();
+        this.board = r.getGrid();
 
         DEPQ frontier = new DEPQ();
         HashSet explored = new HashSet<String>();
 
-        frontier.add(r.getGrid());
-        temp = (Grid) frontier.getLeast();
+        Node temp = new Node(r.getRobotX(), r.getRobotY());
+
+        frontier.add(node);
+        //temp = (Grid) frontier.getLeast();
 
         while((temp!=null)){
             //temp.print();
 
             //Keep calling expand all, and iterating round
             //and adding to the queue.
-            if(temp.isGoal(r.getGoalX(), r.getGoalY())){
+            if(temp.isGoal(this.GoalX(), this.GoalY())){
                 System.out.println("Goal Found!");
                 temp.print();
                 break;
@@ -54,12 +59,12 @@ public class AStar implements IAStar{
 
     private void createNode(DEPQ open, Grid parent, int depth, int x, int y){
         Grid temp;
-        temp = new Grid(depth);
+        temp = new Node(x, y, depth);
 
         temp.setParent(parent);
-        parent.copyGrid(temp, parent);
-        temp.setThisCell(x, y, 2);
-        temp.setThisCell(parent.getRobotX(), parent.getRobotY(), 3);
+        //parent.copyGrid(temp, parent);
+        //temp.setThisCell(x, y, 2);
+        //temp.setThisCell(parent.getRobotX(), parent.getRobotY(), 3);
 
         int h = this.calculateCost(temp);
 
