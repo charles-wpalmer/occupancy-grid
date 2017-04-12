@@ -15,15 +15,17 @@ public class Robot {
     private Grid environment;
     private double xpos, ypos, orientation;
     ArrayList<Data> data_list;
-    private int goalX;
-    private int goalY;
+    private int goalX, robotX;
+    private int goalY, robotY;
 
     public Robot(){
         this.environment = new Grid();
     }
 
     public void addRobot(int x, int y){
-        this.environment.setThisCell(2, 2, 2);
+        this.robotX = x;
+        this.robotY = y;
+        this.environment.setThisCell(x, y, 2);
     }
 
     public void addGoal(int x, int y){
@@ -40,7 +42,15 @@ public class Robot {
     public void navigate() {
         AStar searcher = new AStar();
 
-        searcher.start(this);
+        Node temp = searcher.start(this);
+
+        temp = temp.getParent();
+        while (temp != null){
+            this.environment.setThisCell(temp.getXpos(), temp.getYpos(), 3);
+
+            temp = temp.getParent();
+        }
+        this.environment.print();
     }
 
     private double[] convertString(String[] data, int size){
@@ -59,6 +69,14 @@ public class Robot {
 
     public int getGoalY(){
         return this.goalY;
+    }
+
+    public int getRobotY(){
+        return this.robotY;
+    }
+
+    public int getRobotX(){
+        return this.robotX;
     }
 
     public Grid getGrid(){
@@ -80,8 +98,8 @@ public class Robot {
 
             String rangesLine, posesLine = null;
 
-            this.addRobot(1, 1);
-            this.addGoal(30, 15);
+            this.addRobot(46, 41);
+            this.addGoal(26, 25);
 
             while((rangesLine = brr.readLine()) != null && (posesLine = brp.readLine()) != null){
                 String[] ranges = rangesLine.split(" ");

@@ -7,11 +7,11 @@ import robot.*;
  */
 public interface IAStar {
 
-    public void start(Robot r);
+    public Node start(Robot r);
 
     public void finalise();
 
     public void playSolution();
 
-    public int calculateCost(Grid grid);
+    public int calculateCost(Node grid);
 }

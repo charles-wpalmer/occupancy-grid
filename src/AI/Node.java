@@ -1,10 +1,12 @@
 package AI;
 
+import robot.Grid;
+
 /**
  * Represents a node in the search tree
  * Created by charles on 10/04/17.
  */
-public class Node {
+public class Node implements Comparable<Node>{
     private int xpos, ypos;
 
     private int f;
@@ -32,6 +34,10 @@ public class Node {
         return this.xpos;
     }
 
+    public int getDepth(){
+        return this.depth;
+    }
+
     public int getYpos(){
         return this.ypos;
     }
@@ -54,5 +60,11 @@ public class Node {
 
     public void setParent(Node node){
         this.parent = node;
+    }
+
+    @Override
+    public int compareTo(Node o) {
+        return f-o.f;
+
     }
 }
