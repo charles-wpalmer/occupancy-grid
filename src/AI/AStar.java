@@ -5,6 +5,7 @@ import robot.Grid;
 import robot.Robot;
 
 import java.util.HashSet;
+import java.util.PriorityQueue;
 
 /**
  * Class to handle A* searching.
@@ -24,19 +25,12 @@ public class AStar implements IAStar{
         this.goalX = r.getGoalX();
         this.board = r.getGrid();
 
-        DEPQ frontier = new DEPQ();
+        PriorityQueue frontier = new PriorityQueue();
         HashSet explored = new HashSet<String>();
 
         temp = new Node(r.getRobotX(), r.getRobotY());
 
-        //frontier.add(temp);
-        //temp = (Grid) frontier.getLeast();
-
         while((temp!=null)){
-            //temp.print();
-
-            //Keep calling expand all, and iterating round
-            //and adding to the queue.
             if(isGoal(temp)){
                 System.out.println("Goal Found!");
                 System.out.println(temp.getDepth());
@@ -44,18 +38,16 @@ public class AStar implements IAStar{
                 break;
             }
             if(explored.contains(temp)){
-                //continue;
+                continue;
             }
             expandAll(temp, frontier, temp.getDepth()+1);
             explored.add(temp);
-            temp = (Node) frontier.getLeast();
+            temp = (Node) frontier.poll();
         }
         return temp;
     }
 
     public boolean isGoal(Node curr){
-
-        System.out.println(curr.getYpos()+"---"+this.goalY+"---"+this.goalX+"---"+curr.getXpos());
         if(curr.getXpos() == this.goalX && curr.getYpos() == this.goalY){
             return true;
         } else {
@@ -69,13 +61,11 @@ public class AStar implements IAStar{
 
     }
 
-    private void createNode(DEPQ open, Node parent, int depth, int x, int y){
+    private void createNode(PriorityQueue open, Node parent, int depth, int x, int y){
         Node temp;
         temp = new Node(x, y, depth);
         temp.setParent(parent);
-        //parent.copyGrid(temp, parent);
-        //temp.setThisCell(x, y, 2);
-        //temp.setThisCell(parent.getRobotX(), parent.getRobotY(), 3);
+
         int h = this.calculateCost(temp);
 
         //f(n) = g(n) + h(n)
@@ -83,9 +73,10 @@ public class AStar implements IAStar{
         open.add(temp);
     }
 
-    private void expandAll(Node parent, DEPQ open, int depth){
+    private void expandAll(Node parent, PriorityQueue open, int depth){
         int x;
         int y;
+
         //Foreach neighbour
         //calculate f=g+h
         if(isLegal(parent.getXpos()-1, parent.getYpos())){
@@ -127,8 +118,8 @@ public class AStar implements IAStar{
 
     @Override
     public int calculateCost(Node grid) {
-        int y = this.goalY - grid.getYpos();
-        int x = this.goalX - grid.getXpos();
+        int y = Math.abs(this.goalY - grid.getYpos());
+        int x = Math.abs(this.goalX - grid.getXpos());
 
         return Math.abs(x + y);
     }
