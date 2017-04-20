@@ -11,7 +11,7 @@ import java.util.PriorityQueue;
  * Class to handle A* searching.
  * Created by charles on 22/03/17.
  */
-public class AStar implements IAStar{
+public class AStar implements ISearcher{
 
     private int goalX, goalY;
 
@@ -55,12 +55,6 @@ public class AStar implements IAStar{
         }
     }
 
-    private boolean isLegal(int x, int y){
-        return ((x >= 0) && (x < 50) && (y >= 0) &&
-                (y < 50) && !this.board.getCell(x, y).getOccuided());
-
-    }
-
     private void createNode(PriorityQueue open, Node parent, int depth, int x, int y){
         Node temp;
         temp = new Node(x, y, depth);
@@ -79,25 +73,25 @@ public class AStar implements IAStar{
 
         //Foreach neighbour
         //calculate f=g+h
-        if(isLegal(parent.getXpos()-1, parent.getYpos())){
+        if(this.board.isLegal(parent.getXpos()-1, parent.getYpos())){
             x = parent.getXpos()-1;
             y = parent.getYpos();
 
             createNode(open, parent, depth, x, y);
         }
-        if(isLegal(parent.getXpos()+1, parent.getYpos())){
+        if(this.board.isLegal(parent.getXpos()+1, parent.getYpos())){
             x = parent.getXpos()+1;
             y = parent.getYpos();
 
             createNode(open, parent, depth, x, y);
         }
-        if(isLegal(parent.getXpos(), parent.getYpos()-1)){
+        if(this.board.isLegal(parent.getXpos(), parent.getYpos()-1)){
             x = parent.getXpos();
             y = parent.getYpos()-1;
 
             createNode(open, parent, depth, x, y);
         }
-        if(isLegal(parent.getXpos(), parent.getYpos()+1)){
+        if(this.board.isLegal(parent.getXpos(), parent.getYpos()+1)){
             x = parent.getXpos();
             y = parent.getYpos()+1;
 

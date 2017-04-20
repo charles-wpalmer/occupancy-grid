@@ -1,6 +1,8 @@
 package robot;
 
 import AI.*;
+import Factory.Factory;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -40,7 +42,9 @@ public class Robot {
      *
      */
     public void navigate() {
-        AStar searcher = new AStar();
+        Factory factory = Factory.getInstance("astar");
+
+        ISearcher searcher = factory.createSearcher();
 
         Node temp = searcher.start(this);
 
@@ -98,8 +102,8 @@ public class Robot {
 
             String rangesLine, posesLine = null;
 
-            this.addRobot(34, 10);
-            this.addGoal(24, 43);
+            this.addRobot(31, 42);
+            this.addGoal(15, 41);
 
             while((rangesLine = brr.readLine()) != null && (posesLine = brp.readLine()) != null){
                 String[] ranges = rangesLine.split(" ");

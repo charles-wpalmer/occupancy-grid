@@ -1,5 +1,7 @@
 package Factory;
 
+import AI.AStar;
+
 import java.util.Objects;
 
 /*
@@ -7,21 +9,23 @@ import java.util.Objects;
  * Implements Interface Factory
  * Created by charles on 24/03/17.
  */
-public class Factory implements IFactory {
+public abstract class Factory{
 
+    public static Factory getInstance(String type) {
 
-    @Override
-    public void register(String type) {
+        Factory factory = null;
 
+        switch(type){
+            case "astar":
+                factory = new AStarFactory();
+                break;
+            case "bfs":
+                factory = new AStarFactory();
+                break;
+        }
+
+        return factory;
     }
 
-    @Override
-    public void registerSingleton(Object type) {
-
-    }
-
-    @Override
-    public Object getInstance(String type) {
-        return null;
-    }
+    public abstract AStar createSearcher();
 }

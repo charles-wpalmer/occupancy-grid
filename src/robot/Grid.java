@@ -164,6 +164,12 @@ public class Grid implements Comparable<Grid>{
         }
     }
 
+    public boolean isLegal(int x, int y){
+        return ((x >= 0) && (x < 50) && (y >= 0) &&
+                (y < 50) && !this.getCell(x, y).getOccuided());
+
+    }
+
     @Override
     public int compareTo(Grid o) {
         return f-o.f;
