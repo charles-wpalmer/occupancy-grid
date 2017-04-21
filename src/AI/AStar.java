@@ -11,11 +11,9 @@ import java.util.PriorityQueue;
  * Class to handle A* searching.
  * Created by charles on 22/03/17.
  */
-public class AStar implements ISearcher{
+public class AStar extends ISearcher{
 
     private int goalX, goalY;
-
-    private Grid board;
 
     @Override
     public Node start(Robot r) {
@@ -55,7 +53,7 @@ public class AStar implements ISearcher{
         }
     }
 
-    private void createNode(PriorityQueue open, Node parent, int depth, int x, int y){
+    public void createNode(PriorityQueue open, Node parent, int depth, int x, int y){
         Node temp;
         temp = new Node(x, y, depth);
         temp.setParent(parent);
@@ -67,50 +65,6 @@ public class AStar implements ISearcher{
         open.add(temp);
     }
 
-    private void expandAll(Node parent, PriorityQueue open, int depth){
-        int x;
-        int y;
-
-        //Foreach neighbour
-        //calculate f=g+h
-        if(this.board.isLegal(parent.getXpos()-1, parent.getYpos())){
-            x = parent.getXpos()-1;
-            y = parent.getYpos();
-
-            createNode(open, parent, depth, x, y);
-        }
-        if(this.board.isLegal(parent.getXpos()+1, parent.getYpos())){
-            x = parent.getXpos()+1;
-            y = parent.getYpos();
-
-            createNode(open, parent, depth, x, y);
-        }
-        if(this.board.isLegal(parent.getXpos(), parent.getYpos()-1)){
-            x = parent.getXpos();
-            y = parent.getYpos()-1;
-
-            createNode(open, parent, depth, x, y);
-        }
-        if(this.board.isLegal(parent.getXpos(), parent.getYpos()+1)){
-            x = parent.getXpos();
-            y = parent.getYpos()+1;
-
-            createNode(open, parent, depth, x, y);
-        }
-
-    }
-
-    @Override
-    public void finalise() {
-
-    }
-
-    @Override
-    public void playSolution() {
-
-    }
-
-    @Override
     public int calculateCost(Node grid) {
         int y = Math.abs(this.goalY - grid.getYpos());
         int x = Math.abs(this.goalX - grid.getXpos());
