@@ -4,6 +4,7 @@ import PriorityQueue.DEPQ;
 import robot.Grid;
 import robot.Robot;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 
@@ -13,7 +14,7 @@ import java.util.PriorityQueue;
  */
 public class AStar extends ISearcher{
 
-    private int goalX, goalY;
+    private int ne;
 
     @Override
     public Node start(Robot r) {
@@ -30,7 +31,7 @@ public class AStar extends ISearcher{
 
         while((temp!=null)){
             if(isGoal(temp)){
-                System.out.println("Goal Found!");
+                System.out.println("Goal Found! Nodes Expanded: "+this.ne);
                 System.out.println(temp.getDepth());
                 //temp.print();
                 break;
@@ -45,18 +46,12 @@ public class AStar extends ISearcher{
         return temp;
     }
 
-    public boolean isGoal(Node curr){
-        if(curr.getXpos() == this.goalX && curr.getYpos() == this.goalY){
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public void createNode(PriorityQueue open, Node parent, int depth, int x, int y){
+    @Override
+    public void createNode(Collection<Node> open, Node parent, int depth, int x, int y){
         Node temp;
         temp = new Node(x, y, depth);
         temp.setParent(parent);
+        this.ne++;
 
         int h = this.calculateCost(temp);
 

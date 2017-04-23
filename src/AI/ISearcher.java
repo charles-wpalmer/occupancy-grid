@@ -2,6 +2,7 @@ package AI;
 
 import robot.*;
 
+import java.util.Collection;
 import java.util.PriorityQueue;
 
 /**
@@ -12,7 +13,9 @@ public abstract class ISearcher {
 
     Grid board;
 
-    void expandAll(Node parent, PriorityQueue open, int depth){
+    protected int goalX, goalY;
+
+    void expandAll(Node parent, Collection<Node> open, int depth){
         int x;
         int y;
 
@@ -44,7 +47,16 @@ public abstract class ISearcher {
         }
 
     }
+
+    public boolean isGoal(Node curr){
+        if(curr.getXpos() == this.goalX && curr.getYpos() == this.goalY){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     public abstract Node start(Robot r);
 
-    public abstract void createNode(PriorityQueue open, Node parent, int depth, int x, int y);
+    public abstract void createNode(Collection<Node> open, Node parent, int depth, int x, int y);
 }

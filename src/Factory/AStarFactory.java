@@ -1,6 +1,7 @@
 package Factory;
 
 import AI.AStar;
+import AI.ISearcher;
 
 /**
  * Factory to create AStar classes
@@ -9,7 +10,7 @@ import AI.AStar;
 public class AStarFactory extends Factory {
 
     @Override
-    public AStar createSearcher() {
+    public ISearcher createSearcher() {
         return new AStar();
     }
 }

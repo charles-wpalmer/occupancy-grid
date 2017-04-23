@@ -1,6 +1,7 @@
 package Factory;
 
 import AI.AStar;
+import AI.ISearcher;
 
 import java.util.Objects;
 
@@ -20,12 +21,12 @@ public abstract class Factory{
                 factory = new AStarFactory();
                 break;
             case "bfs":
-                factory = new AStarFactory();
+                factory = new BFSFactory();
                 break;
         }
 
         return factory;
     }
 
-    public abstract AStar createSearcher();
+    public abstract ISearcher createSearcher();
 }
